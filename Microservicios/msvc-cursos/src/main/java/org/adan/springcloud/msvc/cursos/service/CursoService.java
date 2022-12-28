@@ -7,15 +7,15 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CursoService {
-    List<Curso> listar();
-    Optional<Curso> porId(Long id);
-    Optional<Curso> porIdConUsuarios(Long id);
-    Curso guardar(Curso curso);
-    void eliminar(Long id);
+    List<Curso> CURSO_LIST();
+    Optional<Curso> BY_ID(Long id);
+    Optional<Curso> BY_ID_WITH_THE_USERS (Long id);
+    Curso SAVE_CURSO(Curso curso);
+    void DELETE_CURSO(Long id);
 
-    void eliminarCursoUsuarioPorId(Long id);
+    void DELETE_CURSO_USER(Long id);
 
-    Optional<Usuario> asignarUsuario(Usuario usuario, Long cursoId);
-    Optional<Usuario> crearUsuario(Usuario usuario, Long cursoId);
-    Optional<Usuario> eliminarUsuario(Usuario usuario, Long cursoId);
+    Optional<Usuario> ASSIGN_USER(Usuario usuario, Long cursoId);
+    Optional<Usuario> CREATE_USER(Usuario usuario, Long cursoId);
+    Optional<Usuario> DELETE_USER(Usuario usuario, Long cursoId);
 }

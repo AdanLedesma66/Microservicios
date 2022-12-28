@@ -25,19 +25,19 @@ public class CursoServiceImpl implements CursoService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<Curso> listar() {
+    public List<Curso> CURSO_LIST() {
         return (List<Curso>) repository.findAll();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Curso> porId(Long id) {
+    public Optional<Curso> BY_ID(Long id) {
         return repository.findById(id);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Curso> porIdConUsuarios(Long id) {
+    public Optional<Curso> BY_ID_WITH_THE_USERS(Long id) {
         Optional<Curso> o = repository.findById(id);
         if (o.isPresent()) {
             Curso curso = o.get();
@@ -55,25 +55,25 @@ public class CursoServiceImpl implements CursoService{
 
     @Override
     @Transactional
-    public Curso guardar(Curso curso) {
+    public Curso SAVE_CURSO(Curso curso) {
         return repository.save(curso);
     }
 
     @Override
     @Transactional
-    public void eliminar(Long id) {
+    public void DELETE_CURSO(Long id) {
         repository.deleteById(id);
     }
 
     @Override
     @Transactional
-    public void eliminarCursoUsuarioPorId(Long id) {
-        repository.eliminarCursoUsuarioPorId(id);
+    public void DELETE_CURSO_USER(Long id) {
+        repository.DELETE_CURSO_USER_BY_ID(id);
     }
 
     @Override
     @Transactional
-    public Optional<Usuario> asignarUsuario(Usuario usuario, Long cursoId) {
+    public Optional<Usuario> ASSIGN_USER(Usuario usuario, Long cursoId) {
         Optional<Curso> o = repository.findById(cursoId);
         if (o.isPresent()) {
             Usuario usuarioMsvc = client.detalle(usuario.getId());
@@ -92,7 +92,7 @@ public class CursoServiceImpl implements CursoService{
 
     @Override
     @Transactional
-    public Optional<Usuario> crearUsuario(Usuario usuario, Long cursoId) {
+    public Optional<Usuario> CREATE_USER(Usuario usuario, Long cursoId) {
         Optional<Curso> o = repository.findById(cursoId);
         if (o.isPresent()) {
             Usuario usuarioNuevoMsvc = client.crear(usuario);
@@ -111,7 +111,7 @@ public class CursoServiceImpl implements CursoService{
 
     @Override
     @Transactional
-    public Optional<Usuario> eliminarUsuario(Usuario usuario, Long cursoId) {
+    public Optional<Usuario> DELETE_USER(Usuario usuario, Long cursoId) {
         Optional<Curso> o = repository.findById(cursoId);
         if (o.isPresent()) {
             Usuario usuarioMsvc = client.detalle(usuario.getId());

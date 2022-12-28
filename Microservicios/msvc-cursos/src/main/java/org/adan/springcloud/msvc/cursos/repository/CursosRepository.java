@@ -9,5 +9,5 @@ public interface CursosRepository extends CrudRepository<Curso, Long> {
 
     @Modifying
     @Query("delete from CursoUsuario cu where cu.usuarioId=?1")
-    void eliminarCursoUsuarioPorId(Long id);
+    void DELETE_CURSO_USER_BY_ID(Long id);
 }
