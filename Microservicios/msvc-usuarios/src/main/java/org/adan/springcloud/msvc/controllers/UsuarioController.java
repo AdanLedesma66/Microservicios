@@ -12,53 +12,54 @@ import javax.validation.Valid;
 import java.util.*;
 
 @RestController
+@RequestMapping("/users")
 public class UsuarioController {
 
     @Autowired
     private UsuarioService service;
 
-    @GetMapping("/")
-    public List<Usuario> listar() {
-        return service.listar();
+    @GetMapping("/tolist")
+    public List<Usuario> TOLIST() {
+        return service.USUARIO_LIST();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> detalle(@PathVariable Long id) {
-        Optional<Usuario> usuarioOptional = service.porId(id);
+    @GetMapping("/tolist/{id}")
+    public ResponseEntity<?> DETAILS(@PathVariable Long id) {
+        Optional<Usuario> usuarioOptional = service.BY_ID(id);
         if (usuarioOptional.isPresent()) {
             return ResponseEntity.ok(usuarioOptional.get());
         }
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/")
-    public ResponseEntity<?> crear(@Valid @RequestBody Usuario usuario, BindingResult result) {
+    @PostMapping("/create")
+    public ResponseEntity<?> CREATE(@Valid @RequestBody Usuario usuario, BindingResult result) {
 
         if (result.hasErrors()) {
             return validar(result);
         }
 
-        if (!usuario.getEmail().isEmpty() && service.existePorEmail(usuario.getEmail())) {
+        if (!usuario.getEmail().isEmpty() && service.EXISTS_BY_EMAIL(usuario.getEmail())) {
             return ResponseEntity.badRequest()
                     .body(Collections
                             .singletonMap("mensaje", "Ya existe un usuario con ese correo electronico!"));
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.guardar(usuario));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.SAVE_USER(usuario));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> editar(@Valid @RequestBody Usuario usuario, BindingResult result, @PathVariable Long id) {
+    @PutMapping("editing/{id}")
+    public ResponseEntity<?> EDITING(@Valid @RequestBody Usuario usuario, BindingResult result, @PathVariable Long id) {
 
         if (result.hasErrors()) {
             return validar(result);
         }
 
-        Optional<Usuario> o = service.porId(id);
+        Optional<Usuario> o = service.BY_ID(id);
         if (o.isPresent()) {
             Usuario usuarioDb = o.get();
             if (!usuario.getEmail().isEmpty() &&
                     !usuario.getEmail().equalsIgnoreCase(usuarioDb.getEmail()) &&
-                    service.porEmail(usuario.getEmail()).isPresent()) {
+                    service.BY_EMAIL(usuario.getEmail()).isPresent()) {
                 return ResponseEntity.badRequest()
                         .body(Collections
                                 .singletonMap("mensaje", "Ya existe un usuario con ese correo electronico!"));
@@ -67,30 +68,30 @@ public class UsuarioController {
             usuarioDb.setNombre(usuario.getNombre());
             usuarioDb.setEmail(usuario.getEmail());
             usuarioDb.setPassword(usuario.getPassword());
-            return ResponseEntity.status(HttpStatus.CREATED).body(service.guardar(usuarioDb));
+            return ResponseEntity.status(HttpStatus.CREATED).body(service.SAVE_USER(usuarioDb));
         }
         return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> eliminar(@PathVariable Long id) {
-        Optional<Usuario> o = service.porId(id);
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> DELETE(@PathVariable Long id) {
+        Optional<Usuario> o = service.BY_ID(id);
         if (o.isPresent()) {
-            service.eliminar(id);
+            service.DELETE_USER(id);
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/usuarios-por-curso")
-    public ResponseEntity<?> obtenerAlumnosPorCurso(@RequestParam List<Long> ids){
-        return ResponseEntity.ok(service.listarPorIds(ids));
+    @GetMapping("/user-for-curso")
+    public ResponseEntity<?> GETSTUDENTSOERCURSO(@RequestParam List<Long> ids){
+        return ResponseEntity.ok(service.TO_LIST_BY_IDS(ids));
     }
 
     private ResponseEntity<Map<String, String>> validar(BindingResult result) {
         Map<String, String> errores = new HashMap<>();
         result.getFieldErrors().forEach(err -> {
-            errores.put(err.getField(), "El campo " + err.getField() + " " + err.getDefaultMessage());
+            errores.put(err.getField(), "THIS FIELD" + err.getField() + " " + err.getDefaultMessage());
         });
         return ResponseEntity.badRequest().body(errores);
     }
