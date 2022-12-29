@@ -37,7 +37,7 @@ public class CursoServiceImpl implements CursoService{
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Curso> BY_ID_WITH_THE_USERS(Long id) {
+    public Optional<Curso> BY_ID_USERS(Long id) {
         Optional<Curso> o = repository.findById(id);
         if (o.isPresent()) {
             Curso curso = o.get();

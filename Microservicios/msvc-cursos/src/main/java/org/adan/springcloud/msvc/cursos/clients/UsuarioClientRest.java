@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name="msvc-usuarios", url="localhost:8001")
+@FeignClient(name="msvc-usuarios", url="host.docker.internal:8001/users")
 public interface UsuarioClientRest {
 
     @GetMapping("/{id}")
