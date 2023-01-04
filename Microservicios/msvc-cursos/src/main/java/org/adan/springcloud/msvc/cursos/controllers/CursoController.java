@@ -24,7 +24,6 @@ public class CursoController {
     public ResponseEntity<List<Curso>> CURSO_LIST() {
         return ResponseEntity.ok(service.CURSO_LIST());
     }
-
     @GetMapping("/tolist/{id}")
     public ResponseEntity<?> DETAILS(@PathVariable Long id) {
         Optional<Curso> o = service.BY_ID_USERS(id);//service.porId(id);
@@ -54,7 +53,7 @@ public class CursoController {
         }
         return ResponseEntity.notFound().build();
     }
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete-curso/{id}")
     public ResponseEntity<?> DELETE(@PathVariable Long id) {
         Optional<Curso> o = service.BY_ID(id);
         if (o.isPresent()) {
@@ -102,15 +101,14 @@ public class CursoController {
             o = service.DELETE_USER(usuario, cursoId);
         } catch (FeignException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Collections.singletonMap("mensaje", "The user does not exist " +
-                            "by the id or communication error" + e.getMessage()));
+                    .body(Collections.singletonMap("mensaje", "No existe el usuario por " +
+                            "el id o error en la comunicacion: " + e.getMessage()));
         }
         if (o.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body(o.get());
         }
         return ResponseEntity.notFound().build();
     }
-
     @DeleteMapping("/delete-curso-user/{id}")
     public ResponseEntity<?> DELETE_CURSO_USERS(@PathVariable Long id){
         service.DELETE_CURSO_USER(id);

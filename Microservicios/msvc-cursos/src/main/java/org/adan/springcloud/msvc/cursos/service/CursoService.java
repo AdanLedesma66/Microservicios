@@ -2,10 +2,11 @@ package org.adan.springcloud.msvc.cursos.service;
 
 import org.adan.springcloud.msvc.cursos.models.Usuario;
 import org.adan.springcloud.msvc.cursos.models.entity.Curso;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public interface CursoService {
     List<Curso> CURSO_LIST();
     Optional<Curso> BY_ID(Long id);
@@ -18,4 +19,7 @@ public interface CursoService {
     Optional<Usuario> ASSIGN_USER(Usuario usuario, Long cursoId);
     Optional<Usuario> CREATE_USER(Usuario usuario, Long cursoId);
     Optional<Usuario> DELETE_USER(Usuario usuario, Long cursoId);
+
+
+
 }

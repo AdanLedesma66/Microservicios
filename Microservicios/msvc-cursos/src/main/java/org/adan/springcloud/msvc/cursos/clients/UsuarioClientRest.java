@@ -6,15 +6,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name="msvc-usuarios", url="host.docker.internal:8001/users")
+@FeignClient(name="msvc-usuarios", url="localhost:8001/users")
 public interface UsuarioClientRest {
 
-    @GetMapping("/{id}")
-    Usuario detalle(@PathVariable Long id);
+    @GetMapping("/tolist/{id}")
+    Usuario DETAILS(@PathVariable Long id);
 
-    @PostMapping("/")
-    Usuario crear(@RequestBody Usuario usuario);
+    @PostMapping("/create")
+    Usuario CREATE(@RequestBody Usuario usuario);
 
-    @GetMapping("/usuarios-por-curso")
-    List<Usuario> obtenerAlumnosPorCurso(@RequestParam Iterable<Long> ids);
+    @GetMapping("/user-for-curso")
+    List<Usuario> GETSTUDENTSPERCOURSE(@RequestParam Iterable<Long> ids);
 }

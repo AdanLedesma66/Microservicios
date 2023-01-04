@@ -24,14 +24,14 @@ public class UsuarioServiceImpl implements UsuarioService{
         return (List<Usuario>) repository.findAll();
     }
 
-    @Transactional(readOnly = true)
     @Override
+    @Transactional(readOnly = true)
     public Optional<Usuario> BY_ID(Long id) {
         return repository.findById(id);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Usuario SAVE_USER(Usuario usuario) {
         return repository.save(usuario);
     }
@@ -50,11 +50,13 @@ public class UsuarioServiceImpl implements UsuarioService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Usuario> BY_EMAIL(String email) {
         return repository.porEmail(email);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean EXISTS_BY_EMAIL(String email) {
         return repository.existsByEmail(email);
     }

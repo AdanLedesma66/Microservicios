@@ -45,7 +45,7 @@ public class CursoServiceImpl implements CursoService{
                 List<Long> ids = curso.getCursoUsuarios().stream().map(cu -> cu.getUsuarioId())
                         .collect(Collectors.toList());
 
-                List<Usuario> usuarios = client.obtenerAlumnosPorCurso(ids);
+                List<Usuario> usuarios = client.GETSTUDENTSPERCOURSE(ids);
                 curso.setUsuarios(usuarios);
             }
             return Optional.of(curso);
@@ -76,7 +76,7 @@ public class CursoServiceImpl implements CursoService{
     public Optional<Usuario> ASSIGN_USER(Usuario usuario, Long cursoId) {
         Optional<Curso> o = repository.findById(cursoId);
         if (o.isPresent()) {
-            Usuario usuarioMsvc = client.detalle(usuario.getId());
+            Usuario usuarioMsvc = client.DETAILS(usuario.getId());
 
             Curso curso = o.get();
             CursoUsuario cursoUsuario = new CursoUsuario();
@@ -95,7 +95,7 @@ public class CursoServiceImpl implements CursoService{
     public Optional<Usuario> CREATE_USER(Usuario usuario, Long cursoId) {
         Optional<Curso> o = repository.findById(cursoId);
         if (o.isPresent()) {
-            Usuario usuarioNuevoMsvc = client.crear(usuario);
+            Usuario usuarioNuevoMsvc = client.CREATE(usuario);
 
             Curso curso = o.get();
             CursoUsuario cursoUsuario = new CursoUsuario();
@@ -114,7 +114,7 @@ public class CursoServiceImpl implements CursoService{
     public Optional<Usuario> DELETE_USER(Usuario usuario, Long cursoId) {
         Optional<Curso> o = repository.findById(cursoId);
         if (o.isPresent()) {
-            Usuario usuarioMsvc = client.detalle(usuario.getId());
+            Usuario usuarioMsvc = client.DETAILS(usuario.getId());
 
             Curso curso = o.get();
             CursoUsuario cursoUsuario = new CursoUsuario();

@@ -14,6 +14,7 @@ public class Usuario {
     private Long id;
 
     @NotBlank
+    @NotEmpty
     private String nombre;
 
     @NotEmpty

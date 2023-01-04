@@ -3,6 +3,7 @@ package org.adan.springcloud.msvc.controllers;
 import org.adan.springcloud.msvc.Service.UsuarioService;
 import org.adan.springcloud.msvc.models.entity.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -14,13 +15,12 @@ import java.util.*;
 @RestController
 @RequestMapping("/users")
 public class UsuarioController {
-
     @Autowired
     private UsuarioService service;
 
     @GetMapping("/tolist")
-    public List<Usuario> TOLIST() {
-        return service.USUARIO_LIST();
+    public Map<String, List<Usuario>> TOLIST() {
+        return Collections.singletonMap("Users", service.USUARIO_LIST());
     }
 
     @GetMapping("/tolist/{id}")
@@ -42,12 +42,12 @@ public class UsuarioController {
         if (!usuario.getEmail().isEmpty() && service.EXISTS_BY_EMAIL(usuario.getEmail())) {
             return ResponseEntity.badRequest()
                     .body(Collections
-                            .singletonMap("mensaje", "Ya existe un usuario con ese correo electronico!"));
+                            .singletonMap("mensaje", "Ya existe un usuario con el mismo correo electronico!"));
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(service.SAVE_USER(usuario));
     }
 
-    @PutMapping("editing/{id}")
+    @PutMapping("/editing/{id}")
     public ResponseEntity<?> EDITING(@Valid @RequestBody Usuario usuario, BindingResult result, @PathVariable Long id) {
 
         if (result.hasErrors()) {
@@ -73,7 +73,7 @@ public class UsuarioController {
         return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete-user/{id}")
     public ResponseEntity<?> DELETE(@PathVariable Long id) {
         Optional<Usuario> o = service.BY_ID(id);
         if (o.isPresent()) {
