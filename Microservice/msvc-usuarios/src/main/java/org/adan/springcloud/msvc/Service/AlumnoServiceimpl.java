@@ -1,5 +1,6 @@
 package org.adan.springcloud.msvc.Service;
 
+import org.adan.springcloud.msvc.clients.CursoClientRest;
 import org.adan.springcloud.msvc.models.entity.Alumno;
 import org.adan.springcloud.msvc.repositories.AlumnoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import java.util.Optional;
 public class AlumnoServiceimpl implements AlumnoService {
     @Autowired
     private AlumnoRepository repository;
+    @Autowired
+    private CursoClientRest client;
 
     @Override
     public List<Alumno> alumno_list() {
@@ -31,6 +34,7 @@ public class AlumnoServiceimpl implements AlumnoService {
     @Override
     public void delete_alumno(Long id) {
         repository.deleteById(id);
+        client.deleteCursoAlumnoById(id);
     }
 
     @Override

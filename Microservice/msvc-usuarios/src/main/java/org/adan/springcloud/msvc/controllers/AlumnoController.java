@@ -80,7 +80,6 @@ public class AlumnoController {
         }
         return ResponseEntity.notFound().build();
     }
-
     @GetMapping("/alumnos-by-curso")
     public ResponseEntity<?> getAlumnosByCurso(@RequestParam List<Long> ids){
         return ResponseEntity.ok(service.listByIds(ids));
