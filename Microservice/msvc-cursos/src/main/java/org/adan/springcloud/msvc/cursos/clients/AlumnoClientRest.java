@@ -9,7 +9,6 @@ import java.util.List;
 @FeignClient(name="msvc-usuarios", url="localhost:8001/alumnos")
 public interface AlumnoClientRest {
 
-
     @GetMapping("/list_alumno/{id}")
     Alumno details(@PathVariable Long id);
     @PostMapping("/create_alumno")
