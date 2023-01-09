@@ -13,15 +13,13 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.*;
-@Controller
 @RestController
-@RequestMapping("/cursos")
 public class CursoController {
 
     @Autowired
     private CursoService service;
 
-    @GetMapping("/")
+    @GetMapping("/list_curso")
     public ResponseEntity<List<Curso>> List(){
         return ResponseEntity.ok(service.To_List());
     }
@@ -70,7 +68,7 @@ public class CursoController {
 
     //Procedimientos dentro del Msvc_Alumnos
 
-    @PutMapping("/assing_alumno/{id}")
+    @PutMapping("/assing_alumno/{cursoId}")
     public ResponseEntity<?> assing(@RequestBody Alumno alumno, @PathVariable Long cursoId){
         Optional<Alumno> o;
         try {
@@ -85,22 +83,22 @@ public class CursoController {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/create_curso_alumno/{id}")
-    public ResponseEntity<?> create_new_alumno (@RequestBody Alumno alumno, @PathVariable Long cursoId){
+    @PostMapping("/create_curso_alumno/{cursoId}")
+    public ResponseEntity<?> CrearAlumno(@RequestBody Alumno usuario, @PathVariable Long cursoId) {
         Optional<Alumno> o;
         try {
-            o = service.create_alumno(alumno, cursoId);
-        }catch (FeignException e) {
+            o = service.create_alumno(usuario, cursoId);
+        } catch (FeignException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Collections.singletonMap("Mensaje: ", "No se pudo crear el alumno o error en la comunicacion" + e.getMessage()));
+                    .body(Collections.singletonMap("mensaje", "No existe el usuario por el id o error en la comunicacion: " + e.getMessage()));
         }
-        if (o.isPresent()){
+        if (o.isPresent()) {
             return ResponseEntity.status(HttpStatus.CREATED).body(o.get());
         }
         return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/delete_alumno/{id}")
+    @DeleteMapping("/delete_alumno/{cursoId}")
     public ResponseEntity<?> delete_alumno (@RequestBody Alumno alumno, @PathVariable Long cursoId){
         Optional<Alumno> o;
         try {
@@ -115,7 +113,7 @@ public class CursoController {
         return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/eliminar-curso-usuario/{id}")
+    @DeleteMapping("/delete-curso-alumno/{id}")
     public ResponseEntity<?> eliminarCursoUsuarioPorId(@PathVariable Long id){
         service.Delete_Curso_Alumno_By_Id(id);
         return ResponseEntity.noContent().build();

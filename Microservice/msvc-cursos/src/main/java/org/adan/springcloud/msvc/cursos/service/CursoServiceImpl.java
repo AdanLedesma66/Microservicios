@@ -42,7 +42,7 @@ public class CursoServiceImpl implements CursoService{
                 List<Long> ids = curso.getCursoAlumno().stream().map(cu -> cu.getAlumnoId())
                         .collect(Collectors.toList());
 
-                List<Alumno> alumnos = client.obtenerAlumnosPorCurso(ids);
+                List<Alumno> alumnos = client.getAlumnosByCurso(ids);
                 curso.setAlumnos(alumnos);
             }
             return Optional.of(curso);
@@ -69,15 +69,15 @@ public class CursoServiceImpl implements CursoService{
     public Optional<Alumno> assing_alumno(Alumno alumno, Long cursoId) {
         Optional<Curso> o = repository.findById(cursoId);
         if (o.isPresent()) {
-            Alumno usuarioMsvc = client.details(alumno.getId());
+            Alumno alumnoMsvc = client.details(alumno.getId());
 
             Curso curso = o.get();
             CursoAlumno cursoAlumno = new CursoAlumno();
-            cursoAlumno.setAlumnoId(usuarioMsvc.getId());
+            cursoAlumno.setAlumnoId(alumnoMsvc.getId());
 
             curso.addCursoAlumno(cursoAlumno);
             repository.save(curso);
-            return Optional.of(usuarioMsvc);
+            return Optional.of(alumnoMsvc);
         }
 
         return Optional.empty();
@@ -118,4 +118,8 @@ public class CursoServiceImpl implements CursoService{
 
         return Optional.empty();
     }
+
+
+
+
 }

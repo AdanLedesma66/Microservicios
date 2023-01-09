@@ -37,4 +37,7 @@ public interface CursoService{
     //Eliminar alumno de un curso
     Optional<Alumno> Delete_alumno(Alumno alumno, Long cursoId);
 
+    //Listar por id los Alumnos en su curso
+
+
 }

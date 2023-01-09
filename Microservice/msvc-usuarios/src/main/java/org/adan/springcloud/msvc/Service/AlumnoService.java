@@ -13,4 +13,6 @@ public interface AlumnoService {
     void delete_alumno(Long id);
 
     Optional<Alumno> by_email(String email);
+
+    List<Alumno> listByIds(Iterable<Long> ids);
 }

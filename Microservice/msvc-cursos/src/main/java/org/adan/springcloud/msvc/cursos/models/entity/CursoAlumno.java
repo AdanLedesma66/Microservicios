@@ -7,14 +7,14 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@Table(name = "cursos_usuarios")
+@Table(name = "cursos_alumnos")
 public class CursoAlumno {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="usuario_id", unique = true)
+    @Column(name="alumno_id", unique = true)
     private Long alumnoId;
 
 
