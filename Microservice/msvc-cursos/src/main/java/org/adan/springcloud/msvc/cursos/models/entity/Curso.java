@@ -7,6 +7,7 @@ import org.adan.springcloud.msvc.cursos.models.Alumno;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class Curso {
     private List<CursoAlumno> cursoAlumnos;
 
     @Transient
+    @NotNull
     private List<Alumno> alumnos;
 
     public Curso() {
